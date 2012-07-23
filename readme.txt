@@ -33,12 +33,12 @@ I didn't add them yet.
 == Changelog ==
 
 = 1.0.2 =
-Added donate link
-Added plugin link
-Changed the old name "NaNoStats" into "NaNoWriMo Stats" everywhere
+* Added donate link
+* Added plugin link
+* Changed the old name "NaNoStats" into "NaNoWriMo Stats" everywhere
 
 = 1.0.1 =
-Updated readme file
+* Updated readme file
 
 = 1.0 =
-Yay, first version!
+* Yay, first version!
