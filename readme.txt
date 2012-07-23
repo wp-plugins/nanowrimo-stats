@@ -1,10 +1,10 @@
 === NaNoWriMo Stats ===
 Contributors: camilstaps
 Tags: nanowrimo, statistics, nano, stats, wrimo
-Donate link: http://camilstaps.nl
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_flow&SESSION=jb0jqosw1uNy-U0QbPsXQhHetu-dyqD2xmcPRs0Ii9rlsZ1H1EL5ZfiwtUm&dispatch=5885d80a13c0db1f8e263663d3faee8d7283e7f0184a5674430f290db9e9c846
 Requires at least: 3.0.0
 Tested up to: 3.4.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,9 @@ I didn't add them yet.
 1. With an easy shortcode, you can add this awesome stats chart to your site! Colors, size and title are customizable.
 
 == Changelog ==
+
+= 1.0.2 =
+Added donate link
 
 = 1.0.1 =
 Updated readme file
