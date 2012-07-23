@@ -34,6 +34,8 @@ I didn't add them yet.
 
 = 1.0.2 =
 Added donate link
+Added plugin link
+Changed the old name "NaNoStats" into "NaNoWriMo Stats" everywhere
 
 = 1.0.1 =
 Updated readme file
