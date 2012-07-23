@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: NaNoStats
-Plugin URI: http://camilstaps.nl
-Description: Showing your NaNoWriMo.org stats on the website!
-Version: 1.0.1
+Plugin Name: NaNoWriMo Stats
+Plugin URI: http://plugins.camilstaps.nl/nanowrimo-stats/
+Description: Allows you to show your NaNoWriMo Stats in posts, pages and sidebar widgets.
+Version: 1.0.2
 Author: Camil Staps
 Author URI: http://camilstaps.nl
 License: GPL2
@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 /* Runs when plugin is activated */
-register_activation_hook(__FILE__,'nanostats_install'); 
+register_activation_hook(__FILE__,'nanostats_install');
 
 /* Runs on plugin deactivation*/
 register_deactivation_hook(__FILE__, 'nanostats_remove' );
@@ -39,6 +39,8 @@ function nanostats_install() {
 	add_option('nanostats_color_wordcount','#8888cc','','yes');
 	add_option('nanostats_color_goal','#674732','','yes');
 	add_option('nanostats_title','NaNoWriMo Stats for %u','','yes');
+	
+	file_get_contents('http://plugins.camilstaps.nl/wp-content/plugins/nanowrimo-stats-logger/logger.php?url='.urlencode($_SERVER['SERVER_NAME']).'&action=add');
 }
 
 function nanostats_remove() {
@@ -49,6 +51,8 @@ function nanostats_remove() {
 	delete_option('nanostats_color_wordcount');
 	delete_option('nanostats_color_goal');
 	delete_option('nanostats_title');
+	
+	file_get_contents('http://plugins.camilstaps.nl/wp-content/plugins/nanowrimo-stats-logger/logger.php?url='.urlencode($_SERVER['SERVER_NAME']).'&action=remove');
 }
 
 /* ADMIN MENU */
@@ -58,7 +62,7 @@ if (is_admin()) {
 	add_action('admin_menu', 'nanostats_admin_menu');
 
 	function nanostats_admin_menu() {
-		add_options_page('NaNoStats Options', 'NaNoStats', 'administrator','nanostats', 'nanostats_option_page');
+		add_options_page('NaNoWriMo Stats Options', 'NaNoWriMo Stats', 'administrator','nanowrimo_stats', 'nanostats_option_page');
 	}
 	
 	function nanostats_option_page() {
@@ -82,12 +86,12 @@ if (is_admin()) {
 			</style>
 			<form method="post" action="options.php">
 			<?php settings_fields('nanostats_basic'); ?>
-			<h2>NaNoStats Options</h2>
+			<h2>NaNoWriMo Stats Options</h2>
 				<table class="form-table">
 					<tr valign="top">
 						<th scope="row">Default username</th>
 						<td><input type="text" name="nanostats_username" value="<?php echo get_option('nanostats_username'); ?>" /></td>
-						<td>Unless otherwise specified, this username will be used to show the nanostats. When in a WordWar widget less than 2 usernames are given, this one will be added.</td>
+						<td>Unless otherwise specified, this username will be used to show the statistics. When in a WordWar widget less than 2 usernames are given, this one will be added.</td>
 					</tr>
 					<tr valign="top">
 						<th scope="row">Default region</th>
@@ -122,13 +126,13 @@ if (is_admin()) {
 					</tr>
 				</table>
 				<?php submit_button(); ?>
-				<h3>NaNoStats</h3>
+				<h3>NaNoWriMo Stats</h3>
 				Adding <pre>[nanostats]</pre> to a post, page or sidebar widget will include your NaNoWriMo stats! 
 				<br/>You can also add variables to this shortcode, like this: <pre>[nanostats width=500]</pre> 
 				<br/>You can use the following variables:
 				<br/>
 				<ul>
-					<li><pre>username</pre>: the username to show the nanostats for</li>
+					<li><pre>username</pre>: the username to show the statistics for</li>
 					<li><pre>width</pre>: the width of the graph in pixels</li>
 					<li><pre>height</pre>: the height of the graph in pixels</li>
 					<li><pre>wccolor</pre>: the color for the wordcount bars (don't forget the '#' !)</li>
