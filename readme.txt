@@ -23,12 +23,12 @@ Allows you to show your NaNoWriMo Stats in posts, pages and sidebar widgets. Als
 
 == Frequently Asked Questions ==
 
-Q: Why are there no FAQ?
-A: I didn't add them yet.
+= Why are there no FAQ? =
+I didn't add them yet.
 
 == Screenshots ==
 
-There are no screenshots yet.
+1. With an easy shortcode, you can add this awesome stats chart to your site! Colors, size and title are customizable.
 
 == Changelog ==
 
