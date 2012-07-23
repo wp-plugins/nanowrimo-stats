@@ -1,6 +1,5 @@
 === NaNoWriMo Stats ===
 Contributors: camilstaps
-Donate link: http://camilstaps.nl/
 Tags: nanowrimo, statistics, nano, stats, wrimo
 Donate link: http://camilstaps.nl
 Requires at least: 3.0.0
