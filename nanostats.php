@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: NaNoStats
-Plugin URI: none yet
+Plugin URI: http://camilstaps.nl
 Description: Showing your NaNoWriMo.org stats on the website!
-Version: 1.0
+Version: 1.0.1
 Author: Camil Staps
 Author URI: http://camilstaps.nl
 License: GPL2
