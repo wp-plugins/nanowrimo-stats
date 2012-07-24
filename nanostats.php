@@ -3,7 +3,7 @@
 Plugin Name: NaNoWriMo Stats
 Plugin URI: http://plugins.camilstaps.nl/nanowrimo-stats/
 Description: Allows you to show your NaNoWriMo Stats in posts, pages and sidebar widgets.
-Version: 1.0.3
+Version: 1.0.4
 Author: Camil Staps
 Author URI: http://camilstaps.nl
 License: GPL2
@@ -139,6 +139,9 @@ if (is_admin()) {
 					</tr>
 				</table>
 				<?php submit_button(); ?>
+				<h2>Documentation</h2>
+				You can either have a look at <a href="http://plugins.camilstaps.nl/nanowrimo-stats">this online documentation</a> with examples and other nice stuff, or lookup something in the summary below:
+				<br/>
 				<h3>NaNoWriMo Stats</h3>
 				Adding <pre>[nanostats]</pre> to a post, page or sidebar widget will include your NaNoWriMo stats! 
 				<br/>You can also add variables to this shortcode, like this: <pre>[nanostats width=500]</pre> 
@@ -419,10 +422,10 @@ function showNaNoWidget_progress($atts) {
 function showNaNoWidget_wordwar($atts) {
 	$i = 1;
 	while (isset($atts['username'.$i])) {
-		$usernames .= ','.$atts['username'+$i];
+		$usernames .= ','.$atts['username'.$i];
 		$i++;
 	}
-	if ($i<2) $usernames .= ','.get_option('nanostats_username');
+	if ($i<3) $usernames .= ','.get_option('nanostats_username');
 	$usernames = substr($usernames,1);
 	
 	if ($atts['showpercent']=='true') $extra .= ',pc';
@@ -451,10 +454,10 @@ function showNaNoWidget_regionstatus($atts) {
 function showNaNoWidget_regionwar($atts) {
 	$i = 1;
 	while (isset($atts['region'.$i])) {
-		$regions .= ','.$atts['region'+$i];
+		$regions .= ','.$atts['region'.$i];
 		$i++;
 	}
-	if ($i<2) $regions .= ','.get_option('nanostats_region');
+	if ($i<3) $regions .= ','.get_option('nanostats_region');
 	$regions = substr($regions,1);
 	
 	if ($atts['showpercent']=='true') $extra .= ',pc';
