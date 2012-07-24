@@ -3,7 +3,7 @@
 Plugin Name: NaNoWriMo Stats
 Plugin URI: http://plugins.camilstaps.nl/nanowrimo-stats/
 Description: Allows you to show your NaNoWriMo Stats in posts, pages and sidebar widgets.
-Version: 1.0.2
+Version: 1.0.3
 Author: Camil Staps
 Author URI: http://camilstaps.nl
 License: GPL2
@@ -84,9 +84,22 @@ if (is_admin()) {
 					padding-left: 20px;
 				}
 			</style>
-			<form method="post" action="options.php">
-			<?php settings_fields('nanostats_basic'); ?>
+			<form method="post" action="">
+			<?php 
+				settings_fields('nanostats_basic'); 
+				if (isset($_POST['nanostats_username'])) update_option('nanostats_username', $_POST['nanostats_username']);
+				if (isset($_POST['nanostats_region'])) update_option('nanostats_region', $_POST['nanostats_region']);
+				if (isset($_POST['nanostats_width'])) update_option('nanostats_width', $_POST['nanostats_width']);
+				if (isset($_POST['nanostats_height'])) update_option('nanostats_height', $_POST['nanostats_height']);
+				if (isset($_POST['nanostats_color_wordcount'])) update_option('nanostats_color_wordcount', $_POST['nanostats_color_wordcount']);
+				if (isset($_POST['nanostats_color_goal'])) update_option('nanostats_color_goal', $_POST['nanostats_color_goal']);
+				if (isset($_POST['nanostats_title'])) update_option('nanostats_title', $_POST['nanostats_title']);
+				if (isset($_POST['nanostats_username'])) {
+					?><div class="updated"><p><strong><?php _e('Options saved.', 'mt_trans_domain' ); ?></strong></p></div><?php
+				}
+			?>
 			<h2>NaNoWriMo Stats Options</h2>
+				Need any help? Please have a look at the <a href="http://plugins.camilstaps.nl/nanowrimo-stats">documentation</a>. There's a <a href="http://plugins.camilstaps.nl/support">Support page</a> too.<br/>
 				<table class="form-table">
 					<tr valign="top">
 						<th scope="row">Default username</th>
@@ -111,7 +124,7 @@ if (is_admin()) {
 					</tr>
 					<tr valign="top">
 						<th scope="row">Default WC color</th>
-						<td><input type="text" name="nanostats_username" value="<?php echo get_option('nanostats_color_wordcount'); ?>" /></td>
+						<td><input type="text" name="nanostats_color_wordcount" value="<?php echo get_option('nanostats_color_wordcount'); ?>" /></td>
 						<td>The default color for the wordcount bars. (default: #8888cc)</td>
 					</tr>
 					<tr valign="top">
