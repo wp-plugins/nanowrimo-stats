@@ -1,53 +1,51 @@
-=== NaNoStats ===
+=== NaNoWriMo Stats ===
 Contributors: camilstaps
-Donate link: http://camilstaps.nl/
-Tags: nanowrimo, statistics, nano, stats
-Donate link: http://camilstaps.nl
+Tags: nanowrimo, statistics, nano, stats, wrimo
+Donate link: http://plugins.camilstaps.nl/donate
 Requires at least: 3.0.0
 Tested up to: 3.4.1
-Stable tag: trunk
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Allows you to show your NaNoWriMo Stats in posts and pages.
+Allows you to show your NaNoWriMo Stats in posts, pages and sidebar widgets.
 
 == Description ==
 
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
+Allows you to show your NaNoWriMo Stats in posts, pages and sidebar widgets. Also, NaNoWriMo widgets are available.
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
-
-A few notes about the sections above:
-
-*   "Contributors" is a comma separated list of wp.org/wp-plugins.org usernames
-*   "Tags" is a comma separated list of tags that apply to the plugin
-*   "Requires at least" is the lowest version that the plugin will work on
-*   "Tested up to" is the highest version that you've *successfully used to test the plugin*. Note that it might work on
-higher versions... this is just the highest one you've verified.
-*   Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
-stable.
-
-    Note that the `readme.txt` of the stable tag is the one that is considered the defining one for the plugin, so
-if the `/trunk/readme.txt` file says that the stable tag is `4.3`, then it is `/tags/4.3/readme.txt` that'll be used
-for displaying information about the plugin.  In this situation, the only thing considered from the trunk `readme.txt`
-is the stable tag pointer.  Thus, if you develop in trunk, you can update the trunk `readme.txt` to reflect changes in
-your in-development version, without having that information incorrectly disclosed about the current stable version
-that lacks those changes -- as long as the trunk's `readme.txt` points to the correct stable tag.
-
-    If no stable tag is provided, it is assumed that trunk is stable, but you should specify "trunk" if that's where
-you put the stable version, in order to eliminate any doubt.
+The NaNoWriMo Stats plugin comes with clear explanation and documentation.
 
 == Installation ==
 
-1. Upload folder `nanostats` to the `/wp-content/plugins/` directory
+1. Upload folder `nanowrimo-stats` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
 
+= Why are there no FAQ? =
+I didn't add them yet.
+
 == Screenshots ==
 
+1. With an easy shortcode, you can add this awesome stats chart to your site! Colors, size and title are customizable.
+
 == Changelog ==
+
+= 1.0.4 =
+* Fixed bugs in the wordwar widgets
+* Updated donate link
+
+= 1.0.3 =
+* Fixed bug that made options unsavable
+
+= 1.0.2 =
+* Added donate link
+* Added plugin link
+* Changed the old name "NaNoStats" into "NaNoWriMo Stats" everywhere
+
+= 1.0.1 =
+Updated readme file
 
 = 1.0 =
 Yay, first version!
