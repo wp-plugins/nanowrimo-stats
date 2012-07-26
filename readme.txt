@@ -32,6 +32,11 @@ I didn't add them yet.
 
 == Changelog ==
 
+= 1.1 =
+* Added daily wordcount bars
+* Added option to toggle visibility of totals, goals and daily wordcounts
+* Better y axis labels
+
 = 1.0.4 =
 * Fixed bugs in the wordwar widgets
 * Updated donate link
