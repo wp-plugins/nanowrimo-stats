@@ -2,7 +2,7 @@
 Contributors: camilstaps
 Tags: nanowrimo, statistics, nano, stats, wrimo
 Donate link: http://plugins.camilstaps.nl/donate
-Requires at least: 3.0.0
+Requires at least: 2.5
 Tested up to: 3.4.1
 Stable tag: 1.1
 License: GPLv2 or later
