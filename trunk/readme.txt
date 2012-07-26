@@ -2,9 +2,9 @@
 Contributors: camilstaps
 Tags: nanowrimo, statistics, nano, stats, wrimo
 Donate link: http://plugins.camilstaps.nl/donate
-Requires at least: 3.0.0
+Requires at least: 2.5
 Tested up to: 3.4.1
-Stable tag: 1.0.4
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,11 @@ I didn't add them yet.
 1. With an easy shortcode, you can add this awesome stats chart to your site! Colors, size and title are customizable.
 
 == Changelog ==
+
+= 1.1 =
+* Added daily wordcount bars
+* Added option to toggle visibility of totals, goals and daily wordcounts
+* Better y axis labels
 
 = 1.0.4 =
 * Fixed bugs in the wordwar widgets

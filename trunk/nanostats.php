@@ -3,7 +3,7 @@
 Plugin Name: NaNoWriMo Stats
 Plugin URI: http://plugins.camilstaps.nl/nanowrimo-stats/
 Description: Allows you to show your NaNoWriMo Stats in posts, pages and sidebar widgets.
-Version: 1.0.4
+Version: 1.1
 Author: Camil Staps
 Author URI: http://camilstaps.nl
 License: GPL2
@@ -163,7 +163,7 @@ if (is_admin()) {
 					<li><pre>wccolor</pre>: the color for the wordcount bars (don't forget the '#' !)</li>
 					<li><pre>goalcolor</pre>: the color for the goal line (don't forget the '#' !)</li>
 					<li><pre>dailycolor</pre>: the color for the daily words bars (don't forget the '#' !)</li>
-					<li><pre>showtotal</pre>: set to false if you don't want to see the totals (default: true)</li>
+					<li><pre>showtotals</pre>: set to false if you don't want to see the totals (default: true)</li>
 					<li><pre>showgoal</pre>: set to false if you don't want to see the goal line (default: true)</li>
 					<li><pre>showdaily</pre>: set to false if you don't want to see the daily words written bars (default: true)</li>
 					<li><pre>showtitle</pre>: set to false if you don't want a title</li>
@@ -349,7 +349,13 @@ function showNaNoStats($atts) {
 		if ($day!=30) $goals .= ',';
 	}
 	
-	$max = 10000*ceil($wordcount*1.1/10000);
+	$max = array();
+	if ($showtotals!='false') $max[] = 10000*ceil($wordcount*1.1/10000);
+	if ($showdaily!='false') $max[] = 10000*ceil($data[$entry-1]['wc']*1.1/10000);
+	if ($showgoals!='false') $max[] = 10000*ceil($goal*1.1/10000);
+	$max = max($max);
+	if ($max>10000) $numberTicks = $max/10000 + 1;
+	if ($max<=10000) $numberTicks = $max/1000 + 1;
 	
 	$barWidth = floor(($width-50)/30-8);
 	
@@ -419,7 +425,7 @@ function showNaNoStats($atts) {
 					yaxis: {
 						min: 0,
 						max: '.$max.',
-						numberTicks: '.($max/10000+1).',
+						numberTicks: '.$numberTicks.',
 						tickOptions: {formatString: \'%d\'}
 					}
 				}
