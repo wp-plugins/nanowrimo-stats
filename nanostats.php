@@ -3,7 +3,7 @@
 Plugin Name: NaNoWriMo Stats
 Plugin URI: http://plugins.camilstaps.nl/nanowrimo-stats/
 Description: Allows you to show your NaNoWriMo Stats in posts, pages and sidebar widgets.
-Version: 1.0.4
+Version: 1.1
 Author: Camil Staps
 Author URI: http://camilstaps.nl
 License: GPL2
@@ -38,9 +38,10 @@ function nanostats_install() {
 	add_option('nanostats_height','350','','yes');
 	add_option('nanostats_color_wordcount','#8888cc','','yes');
 	add_option('nanostats_color_goal','#674732','','yes');
+	add_option('nanostats_color_daily','#000000','','yes');
 	add_option('nanostats_title','NaNoWriMo Stats for %u','','yes');
 	
-	file_get_contents('http://plugins.camilstaps.nl/wp-content/plugins/nanowrimo-stats-logger/logger.php?url='.urlencode($_SERVER['SERVER_NAME']).'&action=add');
+	file_get_contents('http://plugins.camilstaps.nl/wp-content/plugins/nanowrimo-stats-logger/logger.php?url='.urlencode($_SERVER['HTTP_HOST']).'&action=add');
 }
 
 function nanostats_remove() {
@@ -50,9 +51,10 @@ function nanostats_remove() {
 	delete_option('nanostats_height');
 	delete_option('nanostats_color_wordcount');
 	delete_option('nanostats_color_goal');
+	delete_option('nanostats_color_daily');
 	delete_option('nanostats_title');
 	
-	file_get_contents('http://plugins.camilstaps.nl/wp-content/plugins/nanowrimo-stats-logger/logger.php?url='.urlencode($_SERVER['SERVER_NAME']).'&action=remove');
+	file_get_contents('http://plugins.camilstaps.nl/wp-content/plugins/nanowrimo-stats-logger/logger.php?url='.urlencode($_SERVER['HTTP_HOST']).'&action=remove');
 }
 
 /* ADMIN MENU */
@@ -72,6 +74,7 @@ if (is_admin()) {
 		register_setting('nanostats_basic','nanostats_height');
 		register_setting('nanostats_basic','nanostats_color_wordcount');
 		register_setting('nanostats_basic','nanostats_color_goal');
+		register_setting('nanostats_basic','nanostats_color_daily');
 		register_setting('nanostats_basic','nanostats_title');
 		?>
 		<div class="wrap">
@@ -93,6 +96,7 @@ if (is_admin()) {
 				if (isset($_POST['nanostats_height'])) update_option('nanostats_height', $_POST['nanostats_height']);
 				if (isset($_POST['nanostats_color_wordcount'])) update_option('nanostats_color_wordcount', $_POST['nanostats_color_wordcount']);
 				if (isset($_POST['nanostats_color_goal'])) update_option('nanostats_color_goal', $_POST['nanostats_color_goal']);
+				if (isset($_POST['nanostats_color_daily'])) update_option('nanostats_color_daily', $_POST['nanostats_color_daily']);
 				if (isset($_POST['nanostats_title'])) update_option('nanostats_title', $_POST['nanostats_title']);
 				if (isset($_POST['nanostats_username'])) {
 					?><div class="updated"><p><strong><?php _e('Options saved.', 'mt_trans_domain' ); ?></strong></p></div><?php
@@ -133,6 +137,11 @@ if (is_admin()) {
 						<td>The default color for the goal line. (default: #674732)</td>
 					</tr>
 					<tr valign="top">
+						<th scope="row">Default todays words color</th>
+						<td><input type="text" name="nanostats_color_daily" value="<?php echo get_option('nanostats_color_daily'); ?>" /></td>
+						<td>The default color for daily words written bars. (default: #000000)</td>
+					</tr>
+					<tr valign="top">
 						<th scope="row">Title</th>
 						<td><input type="text" name="nanostats_title" value="<?php echo get_option('nanostats_title'); ?>" /></td>
 						<td>The title for your graph. Use %u to display the username. Keep empty for no username</td>
@@ -153,6 +162,10 @@ if (is_admin()) {
 					<li><pre>height</pre>: the height of the graph in pixels</li>
 					<li><pre>wccolor</pre>: the color for the wordcount bars (don't forget the '#' !)</li>
 					<li><pre>goalcolor</pre>: the color for the goal line (don't forget the '#' !)</li>
+					<li><pre>dailycolor</pre>: the color for the daily words bars (don't forget the '#' !)</li>
+					<li><pre>showtotals</pre>: set to false if you don't want to see the totals (default: true)</li>
+					<li><pre>showgoal</pre>: set to false if you don't want to see the goal line (default: true)</li>
+					<li><pre>showdaily</pre>: set to false if you don't want to see the daily words written bars (default: true)</li>
 					<li><pre>showtitle</pre>: set to false if you don't want a title</li>
 				</ul>
 				All variables you don't define, will get the default value you inputted above.
@@ -257,10 +270,30 @@ function showNaNoStats($atts) {
 	} else {
 		$goalcolor = get_option('nanostats_color_goal');
 	}
+	if (isset($atts['dailycolor'])) {
+		$dailycolor = $atts['dailycolor'];
+	} else {
+		$dailycolor = get_option('nanostats_color_daily');
+	}
 	if (isset($atts['showtitle'])) {
 		$showtitle = $atts['showtitle'];
 	} else {
 		$showtitle = 'true';
+	}
+	if (isset($atts['showtotals'])) {
+		$showtotals = $atts['showtotals'];
+	} else {
+		$showtotals = 'true';
+	}
+	if (isset($atts['showdaily'])) {
+		$showdaily = $atts['showdaily'];
+	} else {
+		$showdaily = 'true';
+	}
+	if (isset($atts['showgoals'])) {
+		$showgoals = $atts['showgoals'];
+	} else {
+		$showgoals = 'true';
 	}
 	
 	if ($showtitle=='true') {
@@ -275,6 +308,7 @@ function showNaNoStats($atts) {
 	$data = $nanodata['wordcounts']['wcentry'];
 	
 	$wordcounts = '';
+	$dailywc = '';
 	$goals = '';
 	$wordcount = 0;
 	$year = substr($data[0]['wcdate'],0,4);
@@ -282,16 +316,24 @@ function showNaNoStats($atts) {
 	if (date('Y-m')==$year.'-11') $current = true;
 	$entry = 0;
 	for ($day=1;$day!=31;$day++) {
-		# wordcount
+		# dailywc
 		if ($day<10) {
 			$dayFormat = '0'.$day;
 		} else {
 			$dayFormat = $day;
 		}
+		$dailywc .= '['.$day.',';
 		if ($data[$entry]['wcdate'] == $year.'-11-'.$dayFormat) {
 			$wordcount += $data[$entry]['wc'];
+			$dailywc .= $data[$entry]['wc'];
 			$entry++;
+		} else {
+			$dailywc .= 0;
 		}
+		$dailywc .= ']';
+		if ($day!=30) $dailywc .= ',';
+		
+		# wordcount
 		$wordcounts .= '['.$day.',';
 		if (!$current || date('d')>$day) {
 			$wordcounts .= $wordcount;
@@ -307,9 +349,52 @@ function showNaNoStats($atts) {
 		if ($day!=30) $goals .= ',';
 	}
 	
-	$max = 10000*ceil($wordcount*1.1/10000);
+	$max = array();
+	if ($showtotals!='false') $max[] = 10000*ceil($wordcount*1.1/10000);
+	if ($showdaily!='false') $max[] = 10000*ceil($data[$entry-1]['wc']*1.1/10000);
+	if ($showgoals!='false') $max[] = 10000*ceil($goal*1.1/10000);
+	$max = max($max);
+	if ($max>10000) $numberTicks = $max/10000 + 1;
+	if ($max<=10000) $numberTicks = $max/1000 + 1;
 	
 	$barWidth = floor(($width-50)/30-8);
+	
+	$showlines = '';
+	if ($showtotals!='false') $showlines .= ',totals';
+	if ($showdaily!='false') $showlines .= ',daily';
+	if ($showgoals!='false') $showlines .= ',goals';
+	$showlines = '['.substr($showlines,1).']';
+	
+	$showcolors = '';
+	if ($showtotals!='false') $showcolors .= ',"'.$wccolor.'"';
+	if ($showdaily!='false') $showcolors .= ',"'.$dailycolor.'"';
+	if ($showgoals!='false') $showcolors .= ',"'.$goalcolor.'"';
+	$showcolors = '['.substr($showcolors,1).']';
+	
+	$showseriesoptions = '';
+	if ($showtotals!='false') $showseriesoptions .= ',{
+							renderer: $nanostatsJ.jqplot.BarRenderer,
+							rendererOptions: {
+								barWidth: '.$barWidth.',
+								barPadding: -'.$barWidth.'
+							},
+							highlighter: { formatString: "Day: %s, total: %d" }
+						}';
+	if ($showdaily!='false') $showseriesoptions .= ',{
+							renderer: $nanostatsJ.jqplot.BarRenderer,
+							rendererOptions: {
+								barWidth: '.$barWidth.',
+								barPadding: -'.$barWidth.'
+							},
+							highlighter: { formatString: "Day: %s, words written: %d" }
+						}';
+	if ($showgoals!='false') $showseriesoptions .= ',{
+							markerOptions: {
+								size: 0
+							},
+							highlighter: { formatString: "Day: %s, goal: %d", showMarker: true }
+						}';
+	$showseriesoptions = '['.substr($showseriesoptions,1).']';
 	
 	$return = '
 	<link class="include" rel="stylesheet" type="text/css" href="'.plugin_dir_url(__FILE__).'jquery.jqplot.min.css" />
@@ -318,31 +403,17 @@ function showNaNoStats($atts) {
     <div id="nanostats-'.$nStats.'" style="width:'.$width.'px; height:'.$height.'px;"></div>
 	<script class="code" type="text/javascript">
 		$nanostatsJ(document).ready(function(){
-			var s1 = ['.$wordcounts.'];
-			var s2 = ['.$goals.'];
+			var daily = ['.$dailywc.'];
+			var totals = ['.$wordcounts.'];
+			var goals = ['.$goals.'];
 			
-			var plot1 = $nanostatsJ.jqplot(\'nanostats-'.$nStats.'\', [s1,s2], {
-				seriesColors: ["'.$wccolor.'","'.$goalcolor.'"],
-				series:[
-						{
-							renderer: $nanostatsJ.jqplot.BarRenderer,
-							rendererOptions: {
-								barWidth: '.$barWidth.',
-								barMargin: 5
-							},
-							highlighter: {
-								formatString: "Day %s: wordcount: %d"
-							}
-						},
-						{
-							highlighter: {
-								formatString: "Day %s: goal: %d"
-							},
-							markerOptions: {
-								size: 0
-							}
-						}
-					],
+			var plot1 = $nanostatsJ.jqplot(\'nanostats-'.$nStats.'\', '.$showlines.', {
+				highlighter: {
+					show: true,
+					showMarker: false
+				},
+				seriesColors: '.$showcolors.',
+				series:'.$showseriesoptions.',
 				title: {
 					text: "'.$title.'",
 					show: '.$showtitle.'
@@ -354,14 +425,9 @@ function showNaNoStats($atts) {
 					yaxis: {
 						min: 0,
 						max: '.$max.',
-						numberTicks: '.($max/10000+1).',
+						numberTicks: '.$numberTicks.',
 						tickOptions: {formatString: \'%d\'}
 					}
-				},
-				highlighter: {
-					show: true,
-					sizeAdjust: 0,
-					showMarker: false
 				}
 			});
 		});
