@@ -129,6 +129,9 @@
 		</ul>
 	</div>
 	<div id="main">
+		<span style="color:#f00;font-size:15px;font-variant:small-caps;">Important notice! The Office of Letters and Light requested me to change the name of this plugin, so that it wouldn't contain 'nanowrimo'. 
+This was only possible by making a <i>new</i> plugin. That means that this plugin won't update anymore. Please download the 'NaNo Stats' plugin from <a href="http://wordpress.org/extend/plugins/nano-stats/" target="_blank">here</a>.
+<br/>Apologies for any caused inconvenience. CS.</span>
 		<div id="form" class="selected">
 			<form method="post" action="">
 			<?php 
