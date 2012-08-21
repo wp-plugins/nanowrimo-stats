@@ -4,7 +4,7 @@ Tags: nanowrimo, statistics, nano, stats, wrimo
 Donate link: http://plugins.camilstaps.nl/donate
 Requires at least: 2.5
 Tested up to: 3.4.1
-Stable tag: 1.2
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
